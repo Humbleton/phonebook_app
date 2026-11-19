@@ -1,0 +1,20 @@
+{
+  "name": "phonebookbackend",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "build:ui": "rm -rf dist && cd ../phonebookfrontend && npm run build && cp -r dist ../phonebookbackend",
+    "build:full": "npm run build:ui && git add . && git commit -m uibuild && git push -u origin main"
+  },
+  "dependencies": {
+    "express": "^5.3.0",
+    "morgan": "^1.12.1"
+  }
+}
