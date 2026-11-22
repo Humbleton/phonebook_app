@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
+const Person = require("./modules/person");
 morgan.token("body", (req, res) => req.body);
 app.use(express.json());
 app.use(express.static("dist"));
@@ -46,7 +47,8 @@ app.get("/", (req, res) => {
   res.send("<h1>Phonebook app</h1>");
 });
 app.get("/api/persons", (req, res) => {
-  res.json(phonebooks);
+  // Exercise 3.13 - fetching all of phonebook entries from the database
+  Person.find({}).then((result) => res.json(result));
 });
 // Step 2
 app.get("/info", (req, res) => {
