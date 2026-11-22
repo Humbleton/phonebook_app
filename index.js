@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
@@ -85,29 +86,20 @@ const generateId = () => {
 // Step 5
 app.post("/api/persons", (req, res) => {
   const body = req.body;
-  const existsPerson = phonebooks.find(
-    (person) => person.name.toLowerCase() === req.body.name.toLowerCase(),
-  );
   // Step 6
   if (!body.name || !body.number) {
     return res
       .status(400)
       .json({ error: "Both name and number must be included" });
-  } else if (existsPerson) {
-    return res.status(400).json({ error: "Name must be unique" });
   }
 
-  const personDetails = {
+  const personDetails = new Person({
     name: body.name,
     number: body.number,
-    id: generateId(),
-  };
-  // console.log(personDetails);
-  // res.status(201).end("success");
-  phonebooks.concat(personDetails);
-  res.status(201).json(personDetails);
+  });
+  personDetails.save().then((result) => res.status(201).json(result));
 });
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
